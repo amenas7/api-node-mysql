@@ -16,7 +16,7 @@ var app = express();
 // });
 
 // configurar nuevos cors
-server.app.use( cors({ origin: true, credentials: true }) );
+app.use( cors({ origin: true, credentials: true }) );
 
 // body parser
 // parse application/x-www-form-urlencoded
