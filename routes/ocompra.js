@@ -9,7 +9,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const { 
-    getOComprasTodas, getOCompraByID, crearOCompra, actualizarOcompra } = require('../controllers/ocompra');
+    getOComprasTodas, getOCompraByID, crearOCompra, actualizarOcompra, borrarOcompra } = require('../controllers/ocompra');
 
 
 const router = Router();
@@ -43,6 +43,11 @@ router.put('/:id',
             ],
             //validarJWT,
             actualizarOcompra 
+);
+
+router.delete('/:id', 
+            //validarJWT,
+            borrarOcompra
 );
 
 module.exports = router;

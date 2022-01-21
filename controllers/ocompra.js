@@ -251,7 +251,7 @@ const actualizarOcompra = async(req, res = response) => {
         });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         ok: true,
         mensaje: "Orden de compra modificada"
     });
@@ -359,21 +359,75 @@ function tres_actualizar_compra_detalle(arreglo, res, compraID) {
             });
         });
     });
+}
 
-    // return new Promise((resolve, reject) => {
-    //     consql.query(query_eliminar, (err, rows, fields) => {
-    //         if (err) {
-    //             console.log("Error: " + err.message);
-    //             throw err;
-    //         }
-    //         resolve(rows);
-    //     });
-    // });
+// ==========================================
+// borrar una orden de compra
+// ==========================================
+const borrarOcompra = async(req, res = response) => {
+    const reg = req.params.id;
+
+    const obtenerReg = await consultar_existe_compra(req, res, reg);
+
+     if ( obtenerReg == '' ) {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Error orden de compra no encontrada'
+        })
+    }
+
+    let arreglo = {
+        idc: reg
+    }
+    const p_uno_eliminar_detalle = await uno_eliminar_detalle(req, res, arreglo);
+
+    if ( p_uno_eliminar_detalle.affectedRows < 1 ) {
+        return res.status(400).json({
+            ok: false,
+            mensaje: 'Error al eliminar orden de compra'
+        });
+    }
+
+    const p_uno_eliminar_cuerpo = await eliminar(req, res, reg);
+
+    if ( p_uno_eliminar_cuerpo.affectedRows < 1 ) {
+        return res.status(400).json({
+            ok: false,
+            mensaje: 'Error al eliminar orden de compra'
+        });
+    }
+    else{
+        return res.status(200).json({
+            ok: true,
+            mensaje: "Orden de compra eliminada"
+        });
+    }
+}
+
+function eliminar(req, res, reg) {
+    const p_id = reg;
+
+    // eliminar
+    const query_eliminar = `
+    delete FROM compra
+    where compraID = "${ p_id }"
+    `;
+
+    return new Promise((resolve, reject) => {
+        consql.query(query_eliminar, (err, rows, fields) => {
+            if (err) {
+                console.log("Error: " + err.message);
+                throw err;
+            }
+            resolve(rows);
+        });
+    });
 }
 
 module.exports = {
     getOComprasTodas,
     getOCompraByID,
     crearOCompra,
-    actualizarOcompra
+    actualizarOcompra,
+    borrarOcompra
 }
