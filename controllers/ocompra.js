@@ -23,7 +23,7 @@ const getOComprasTodas = (req, res) => {
     on area.IDarea = c.area_solicitanteID
     where c.reg_fisico = '1'
     GROUP BY c.compraID
-    ORDER BY c.compraID DESC`, (err, filas) => {
+    ORDER BY c.compraID DESC `, (err, filas) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -44,48 +44,80 @@ const getOComprasTodas = (req, res) => {
 // ==========================================
 // obtener una orden de compra por el ID
 // ==========================================
-const getOCompraByID = (req, res) => {
+const getOCompraByID = async(req, res) => {
     const id = req.params.id;
 
-    consql.query(` select 
-    c.compraID, item.itemID, item.codigo_de_fabrica, 
-    item.marca, item.nombre_item,
-    de.cantidad, item.precio_bs_referencial, de.monto
+    const obtenerReg = await consultar_existe_compra(req, res, id);
+
+     if ( obtenerReg == '' ) {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Error orden de compra no encontrada'
+        })
+    }
+
+    const reg_cabecera = await consultar_cabecera(req, res, id);
+    //return console.log(reg[0]['nit']);
+
+    const reg_detalle = await consultar_detalle_productos(req, res, id);
     
-    from compra_detalle de
-    inner join compra c 
-    on de.compraID = c.compraID
-    inner join proveedor prov
-    on prov.proveedorID = c.proveedorID
-    inner join item
-    on item.itemID = de.itemID
-    where c.compraID = "${id}" `, (err, filas) => {
+    let cabecera = {
+        compraID : id,
+        proveedorID: reg_cabecera[0]['proveedorID'],
+        area_solicitanteID: reg_cabecera[0]['area_solicitanteID'],
+        clienteID: reg_cabecera[0]['clienteID'],
+        nit: reg_cabecera[0]['nit'],
+        forma_pago: reg_cabecera[0]['forma_pago'],
+        descripcion: reg_cabecera[0]['descripcion'],
+        monedaID: reg_cabecera[0]['monedaID'],
+        ticket: reg_cabecera[0]['ticket'],
+        tiempo_entrega: reg_cabecera[0]['tiempo_entrega'],
+        sub_total: reg_cabecera[0]['sub_total'],
+        descuento: reg_cabecera[0]['descuento'],
+        total_compra: reg_cabecera[0]['total_compra'],
+        productos:reg_detalle
+    }
 
-        try {
+    return res.status(200).json({
+        ok: true,
+        data : cabecera
+    });
 
-            if ( filas.length == 0 ) {
-                return res.status(500).json({
-                    ok: false,
-                    mensaje: 'No existe una orden de compra con el parametro buscado'
-                })
+}
+
+function consultar_cabecera(req, res, id) {
+    const query = `select 
+    * from compra
+    where compraID = "${id}"  `;
+
+    //return console.log(query);
+    return new Promise((resolve, reject) => {
+        consql.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
             }
-            else{
-               return res.status(200).json({
-                    ok: true,
-                    data: filas,
-                    uid: req.uid
-                }) 
+            resolve(rows);
+        });
+    });
+}
+
+function consultar_detalle_productos(req, res, id) {
+    const query = `select 
+    item.itemID, 'sku', item.codigo_de_fabrica, item.marca, item.nombre_item, de.cantidad, item.precio_bs_referencial, de.monto
+        from
+            compra_detalle de
+        inner join item
+        on item.itemID = de.itemID
+    where de.compraID = "${id}"  `;
+
+    //return console.log(query);
+    return new Promise((resolve, reject) => {
+        consql.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
             }
-
-        } catch (error) {
-            console.log(err);
-            return res.status(500).json({
-                ok: false,
-                mensaje: 'Error cargando ordenes de compra',
-                error: err
-            })
-        }
-
+            resolve(rows);
+        });
     });
 }
 
@@ -114,10 +146,10 @@ const crearOCompra = async(req, res) => {
 
     const query = `insert into compra ( proveedorID, area_solicitanteID, clienteID, 
         fecha_reg, nit, forma_pago, descripcion, monedaID, ticket, tiempo_entrega,
-        sub_total, descuento, total_compra, estado, estado_autorizado, reg_fisico ) VALUES (
+        sub_total, descuento, total_compra, estado, estado_autorizado, reg_fisico, estado_autorizacion ) VALUES (
          "${p_proveedorID}", "${p_area_solicitanteID}", "${p_clienteID}", now(), "${p_nit}", 
          "${p_forma_pago}", "${p_descripcion}", "${p_monedaID}", "${p_ticket}", "${p_tiempo_entrega}", 
-         "${p_sub_total}", "${p_descuento}", "${p_total_compra}", "Creado", "Pendiente", "1" )  `;
+         "${p_sub_total}", "${p_descuento}", "${p_total_compra}", "Creado", "Pendiente", "1", "Pendiente" )  `;
 
     const reg = await registrar_compra(req, res, query);
     const compra_regID = reg.insertId;
@@ -222,8 +254,8 @@ const actualizarOcompra = async(req, res = response) => {
         descuento: p_descuento,
         total_compra: p_total_compra,
         detalle: p_arreglo
-
     }
+
     const p_uno_eliminar_detalle = await uno_eliminar_detalle(req, res, arreglo);
 
     if ( p_uno_eliminar_detalle.affectedRows < 1 ) {

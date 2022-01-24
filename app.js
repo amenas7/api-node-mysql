@@ -38,6 +38,12 @@ app.use('/api/proveedores', require('./routes/proveedores') );
 app.use('/api/almacenes', require('./routes/almacenes') );
 app.use('/api/item', require('./routes/item') );
 app.use('/api/ocompra', require('./routes/ocompra') );
+app.use('/api/autorizaciones', require('./routes/autorizaciones') );
+app.use('/api/autorizacionespend', require('./routes/autorizacionespend') );
+app.use('/api/autorizacionesproc', require('./routes/autorizacionesproc') );
+app.use('/api/usuarios_estado', require('./routes/usuarios_estado') );
+app.use('/api/usuarios_rol', require('./routes/usuarios_rol') );
+app.use('/api/comentarios', require('./routes/comentarios') );
 
 // escuchar peticiones
 app.listen(8080, () => {
