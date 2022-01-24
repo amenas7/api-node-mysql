@@ -66,6 +66,7 @@ const getOCompraByID = async(req, res) => {
         proveedorID: reg_cabecera[0]['proveedorID'],
         area_solicitanteID: reg_cabecera[0]['area_solicitanteID'],
         clienteID: reg_cabecera[0]['clienteID'],
+        fecha_reg: reg_cabecera[0]['fecha_registro_compra'],
         nit: reg_cabecera[0]['nit'],
         forma_pago: reg_cabecera[0]['forma_pago'],
         descripcion: reg_cabecera[0]['descripcion'],
@@ -87,7 +88,7 @@ const getOCompraByID = async(req, res) => {
 
 function consultar_cabecera(req, res, id) {
     const query = `select 
-    * from compra
+    *, date_format(fecha_reg, "%d-%m-%Y") as fecha_registro_compra from compra
     where compraID = "${id}"  `;
 
     //return console.log(query);
