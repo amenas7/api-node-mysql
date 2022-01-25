@@ -10,6 +10,7 @@ const { generarJWT } = require('../helpers/jwt');
 // ==========================================
 const getOComprasTodas = (req, res) => {
     consql.query(` select 
+    c.codigo,
     c.compraID, c.fecha_reg, c.estado, area.nombre_area, c.descripcion, c.reg_fisico
     from
     compra c
@@ -63,6 +64,7 @@ const getOCompraByID = async(req, res) => {
     
     let cabecera = {
         compraID : id,
+        codigo: reg_cabecera[0]['codigo'],
         proveedorID: reg_cabecera[0]['proveedorID'],
         area_solicitanteID: reg_cabecera[0]['area_solicitanteID'],
         clienteID: reg_cabecera[0]['clienteID'],
