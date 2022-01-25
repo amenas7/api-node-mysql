@@ -145,24 +145,28 @@ const crearOCompra = async(req, res) => {
 
     const p_arreglo = req.body.productos;
 
-    const query = `insert into compra ( proveedorID, area_solicitanteID, clienteID, 
-        fecha_reg, nit, forma_pago, descripcion, monedaID, ticket, tiempo_entrega,
-        sub_total, descuento, total_compra, estado, estado_autorizado, reg_fisico, estado_autorizacion ) VALUES (
-         "${p_proveedorID}", "${p_area_solicitanteID}", "${p_clienteID}", now(), "${p_nit}", 
+    // const query = `insert into compra ( proveedorID, area_solicitanteID, clienteID, 
+    //     fecha_reg, nit, forma_pago, descripcion, monedaID, ticket, tiempo_entrega,
+    //     sub_total, descuento, total_compra, estado, estado_autorizado, reg_fisico, estado_autorizacion ) VALUES (
+    //      "${p_proveedorID}", "${p_area_solicitanteID}", "${p_clienteID}", now(), "${p_nit}", 
+    //      "${p_forma_pago}", "${p_descripcion}", "${p_monedaID}", "${p_ticket}", "${p_tiempo_entrega}", 
+    //      "${p_sub_total}", "${p_descuento}", "${p_total_compra}", "Creado", "Pendiente", "1", "Pendiente" )  `;
+    const query = `CALL USP_REG_COMPRA( "${p_proveedorID}", "${p_area_solicitanteID}", "${p_clienteID}", "${p_nit}", 
          "${p_forma_pago}", "${p_descripcion}", "${p_monedaID}", "${p_ticket}", "${p_tiempo_entrega}", 
-         "${p_sub_total}", "${p_descuento}", "${p_total_compra}", "Creado", "Pendiente", "1", "Pendiente" )  `;
+         "${p_sub_total}", "${p_descuento}", "${p_total_compra}" )  `;
 
+  
     const reg = await registrar_compra(req, res, query);
-    const compra_regID = reg.insertId;
+    //const compra_regID = reg.id;
 
-    if ( reg.insertId == '' ) {
+    if ( reg < 1 ) {
         return res.status(400).json({
             ok: false,
             mensaje: 'Error al crear orden de compra'
         })
     }
     else{
-        const regdetalle = await registrar_compra_detalle(p_arreglo, res, compra_regID);
+        const regdetalle = await registrar_compra_detalle(p_arreglo, res, reg);
         if ( regdetalle.insertId == '' ) {
             return res.status(400).json({
                 ok: false,
@@ -187,7 +191,7 @@ function registrar_compra(req, res, query) {
                     return reject(err);
                 });
             }
-            resolve(rows);
+            resolve(rows[0][0]['id']);
         });
     });
 }
