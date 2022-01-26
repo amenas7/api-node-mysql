@@ -3,6 +3,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 
 const cors = require('cors');
+
+var fileUpload = require('express-fileupload');
+
 // inicializar variables
 var app = express();
 
@@ -22,6 +25,12 @@ app.use( cors({ origin: true, credentials: true }) );
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/tmp/',
+    createParentPath: true
+}));
 
 
 // importar rutas
@@ -44,7 +53,10 @@ app.use('/api/autorizacionesproc', require('./routes/autorizacionesproc') );
 app.use('/api/usuarios_estado', require('./routes/usuarios_estado') );
 app.use('/api/usuarios_rol', require('./routes/usuarios_rol') );
 app.use('/api/comentarios', require('./routes/comentarios') );
-//app.use('/api/archivos', require('./routes/archivos') );
+app.use('/api/archivos', require('./routes/archivos') );
+app.use('/api/reportes', require('./routes/reportes') );
+app.use('/api/itemp', require('./routes/itemp') );
+app.use('/api/area', require('./routes/area') );
 
 // escuchar peticiones
 app.listen(8080, () => {
