@@ -58,6 +58,7 @@ app.use('/api/reportes', require('./routes/reportes') );
 app.use('/api/itemp', require('./routes/itemp') );
 app.use('/api/area', require('./routes/area') );
 app.use( '/api/loginG', require('./routes/loginG') );
+app.use( '/api/usuarios_filtro', require('./routes/usuarios_filtro') );
 
 // escuchar peticiones
 app.listen(8080, () => {

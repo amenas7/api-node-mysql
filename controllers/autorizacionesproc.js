@@ -9,36 +9,91 @@ const { generarJWT } = require('../helpers/jwt');
 // obtener todos las ordenes de compra procesadas
 // ==========================================
 const getOComprasTodasProcesados = (req, res) => {
-    consql.query(` select 
-    c.compraID, c.fecha_reg, c.estado_autorizacion, area.nombre_area, c.descripcion, c.reg_fisico
-    from
-    compra c
-    inner join compra_detalle de
-    on c.compraID = de.compraID
-    inner join proveedor prov
-    on prov.proveedorID = c.proveedorID
-    inner join item
-    on item.itemID = de.itemID
-    inner join area
-    on area.IDarea = c.area_solicitanteID
-    where c.estado_autorizacion = 'Procesado'
-    GROUP BY c.compraID
-    ORDER BY c.compraID DESC `, (err, filas) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                mensaje: 'Error cargando ordenes de compra procesados',
-                errors: err
-            })
-        }
-        if (!err) {
-            return res.status(200).json({
-                ok: true,
-                data: filas,
-                uid: req.uid
-            })
-        }
-    });
+
+    const p_desde = req.query.desde;
+    const p_hasta = req.query.hasta;
+
+    //2022-01-25 2022-01-26
+    if ( p_desde == '' && p_hasta == '' ) {
+        consql.query(` select 
+        c.compraID, c.fecha_reg, c.estado_autorizacion, area.nombre_area, c.descripcion, c.reg_fisico
+        from
+        compra c
+        inner join compra_detalle de
+        on c.compraID = de.compraID
+        inner join proveedor prov
+        on prov.proveedorID = c.proveedorID
+        inner join item
+        on item.itemID = de.itemID
+        inner join area
+        on area.IDarea = c.area_solicitanteID
+        where c.estado_autorizacion = 'Procesado'
+        GROUP BY c.compraID
+        ORDER BY c.compraID DESC `, (err, filas) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'Error cargando ordenes de compra procesados',
+                    errors: err
+                })
+            }
+            if (!err) {
+                if ( filas.length > 0 ) {
+                    return res.status(200).json({
+                        ok: true,
+                        data: filas,
+                        uid: req.uid
+                    })
+                }else {
+                    return res.status(500).json({
+                        ok: false,
+                        data: filas,
+                        mensaje: 'No existen registros con los filtros seleccionados'
+                    })
+                }
+            }
+        });
+    }
+    else{
+        consql.query(` select 
+        c.compraID, c.fecha_reg, c.estado_autorizacion, area.nombre_area, c.descripcion, c.reg_fisico
+        from
+        compra c
+        inner join compra_detalle de
+        on c.compraID = de.compraID
+        inner join proveedor prov
+        on prov.proveedorID = c.proveedorID
+        inner join item
+        on item.itemID = de.itemID
+        inner join area
+        on area.IDarea = c.area_solicitanteID
+        where c.estado_autorizacion = 'Procesado' AND c.fecha_reg BETWEEN "${p_desde}" AND "${p_hasta}"
+        GROUP BY c.compraID
+        ORDER BY c.compraID DESC `, (err, filas) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'Error cargando ordenes de compra procesados',
+                    errors: err
+                })
+            }
+            if (!err) {
+                if ( filas.length > 0 ) {
+                    return res.status(200).json({
+                        ok: true,
+                        data: filas,
+                        uid: req.uid
+                    })
+                }else {
+                    return res.status(500).json({
+                        ok: false,
+                        data: filas,
+                        mensaje: 'No existen registros con los filtros seleccionados'
+                    })
+                }
+            }
+        });
+    }
 }
 
 // ==========================================
