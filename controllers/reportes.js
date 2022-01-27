@@ -7,79 +7,137 @@ const fs = require('fs');
 const pdf = require("html-pdf");
 
 // Constantes propias del programa
-const ubicacionPlantilla = require.resolve("../plantilla/factura.html");
+const ubicacionPlantilla = require.resolve("../plantilla/nuevo.html");
 let contenidoHtml = fs.readFileSync(ubicacionPlantilla, 'utf8');
 
-// Estos productos podrían venir de cualquier lugar
-const productos = [
-    {
-        descripcion: "Nintendo Switch",
-        cantidad: 2,
-        precio: 9000,
-    },
-    {
-        descripcion: "Videojuego: Hollow Knight",
-        cantidad: 1,
-        precio: 150,
-    },
-    {
-        descripcion: "Audífonos HyperX",
-        cantidad: 5,
-        precio: 1500,
-    },
-];
-
 const formateador = new Intl.NumberFormat("en", { style: "currency", "currency": "MXN" });
-
 // =======================================================
 // Generar reporte pdf a una orden de compra
 // =======================================================
-const getReporteByID = async (req, respuesta) => {
+const getReporteByID = async (req, res) => {
+
+    const id = req.params.id;
+
+    const obtenerReg = await consultar_existe_compra(req, res, id);
+
+     if ( obtenerReg == '' ) {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Error orden de compra no encontrada'
+        })
+    }
 
     const config = {
         format: 'A4',
-        border: '1.5cm'
+        border: '0.2cm'
     }
 
-    // Generar el HTML de la tabla
+
+    const reg_cabecera = await consultar_cabecera(req, res, id);
+
+    //return console.log(reg_cabecera[0]['total_compra']);
+
+    const reg_detalle = await consultar_detalle_productos(req, res, id);
+
     let tabla = "";
-    let subtotal = 0;
-    for (const producto of productos) {
+    //let subtotal = 0;
+    let contador = 0;
+    for (const producto of reg_detalle) {
         // Aumentar el total
-        const totalProducto = producto.cantidad * producto.precio;
-        subtotal += totalProducto;
+        //const totalProducto = producto.cantidad * producto.precio;
+        //subtotal += totalProducto;
         // Y concatenar los productos
+        contador ++;
         tabla += `<tr>
-    <td>${producto.descripcion}</td>
-    <td>${producto.cantidad}</td>
-    <td>${formateador.format(producto.precio)}</td>
-    <td>${formateador.format(totalProducto)}</td>
-    </tr>`;
+            <th>${ contador }</th>
+            <td>${ producto.sku }</td>
+            <td>${ producto.codigo_de_fabrica }</td>
+            <td>${ producto.marca }</td>
+            <td>${ producto.nombre_item }</td>
+            <td> unidad </td>
+            <td>${ producto.cantidad }</td>
+            <td>${ producto.precio_bs_referencial }</td>
+            <td>${ producto.monto }</td>
+        </tr>`;
     }
-    const descuento = 0;
-    const subtotalConDescuento = subtotal - descuento;
-    const impuestos = subtotalConDescuento * 0.16
-    const total = subtotalConDescuento + impuestos;
+    // const descuento = 0;
+    // const subtotalConDescuento = subtotal - descuento;
+    // const impuestos = subtotalConDescuento * 0.16
+    // const total = subtotalConDescuento + impuestos;
     // Remplazar el valor {{tablaProductos}} por el verdadero valor
-    contenidoHtml = contenidoHtml.replace("{{tablaProductos}}", tabla);
+    contenidoHtml = contenidoHtml.replace( "{{tablaProductos}}", tabla );
 
     // Y también los otros valores
-
-    contenidoHtml = contenidoHtml.replace("{{subtotal}}", formateador.format(subtotal));
-    contenidoHtml = contenidoHtml.replace("{{descuento}}", formateador.format(descuento));
-    contenidoHtml = contenidoHtml.replace("{{subtotalConDescuento}}", formateador.format(subtotalConDescuento));
-    contenidoHtml = contenidoHtml.replace("{{impuestos}}", formateador.format(impuestos));
-    contenidoHtml = contenidoHtml.replace("{{total}}", formateador.format(total));
+    contenidoHtml = contenidoHtml.replace( "{{sub_total}}", reg_cabecera[0]['sub_total'] );
+    contenidoHtml = contenidoHtml.replace( "{{descuento}}", reg_cabecera[0]['descuento'] );
+    contenidoHtml = contenidoHtml.replace( "{{total_compra}}", reg_cabecera[0]['total_compra'] );
+    // contenidoHtml = contenidoHtml.replace("{{descuento}}", formateador.format(descuento));
+    // contenidoHtml = contenidoHtml.replace("{{subtotalConDescuento}}", formateador.format(subtotalConDescuento));
+    // contenidoHtml = contenidoHtml.replace("{{impuestos}}", formateador.format(impuestos));
+    // contenidoHtml = contenidoHtml.replace("{{total}}", formateador.format(total));
     pdf.create(contenidoHtml, config).toStream((error, stream) => {
         if (error) {
-            respuesta.end("Error creando PDF: " + error)
+            res.end("Error creando PDF: " + error)
         } else {
-            respuesta.setHeader("Content-Type", "application/pdf");
-            stream.pipe(respuesta);
+            res.setHeader("Content-Type", "application/pdf");
+            stream.pipe(res);
         }
     });
 
 }
+
+function consultar_existe_compra(req, res, id) {
+    const query = `
+    select count(compraID) as cantidad from compra
+    where compraID = "${id}" `;
+
+    //return console.log(query);
+    return new Promise((resolve, reject) => {
+        consql.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows[0]['cantidad']);
+        });
+    });
+}
+
+function consultar_cabecera(req, res, id) {
+    const query = `select 
+    *, date_format(fecha_reg, "%d-%m-%Y") as fecha_registro_compra from compra
+    where compraID = "${id}"  `;
+
+    //return console.log(query);
+    return new Promise((resolve, reject) => {
+        consql.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+function consultar_detalle_productos(req, res, id) {
+    const query = `select 
+    item.itemID, 'sku', item.codigo_de_fabrica, item.marca, item.nombre_item, de.cantidad, item.precio_bs_referencial, de.monto
+        from
+            compra_detalle de
+        inner join item
+        on item.itemID = de.itemID
+    where de.compraID = "${id}"  `;
+
+    //return console.log(query);
+    return new Promise((resolve, reject) => {
+        consql.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
 // const cargaArchivo = async (req, res) => {
  
 //     if ( !req.files || Object.keys(req.files).length === 0 || !req.files.archivo ) {

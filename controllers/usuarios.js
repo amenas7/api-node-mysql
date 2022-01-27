@@ -10,7 +10,7 @@ const { generarJWT } = require('../helpers/jwt');
 // ==========================================
 const getUsuarios = (req, res) => {
     consql.query(` SELECT persona.IDpersona, 
-    usuario.usuarioID as uid, persona.numdoc ,concat( persona.apepat, ' ', persona.apemat, ', ', persona.nombres ) as nombre_completo,
+    usuario.usuarioID as uid, persona.numdoc , persona.nombrecompleto as nombre_completo,
     usuario.usuario, usuario.IDarea, area.nombre_area as area_nombre, usuario.IDrol, rol.descripcion as rol_nombre ,usuario.estado,
 		persona.email as correo
     from usuario
@@ -45,7 +45,7 @@ const getUsuarioByID = (req, res) => {
     const id = req.params.id;
 
     consql.query(` SELECT persona.IDpersona, 
-    usuario.usuarioID as uid, persona.numdoc ,concat( persona.apepat, ' ', persona.apemat, ', ', persona.nombres ) as nombre_completo,
+    usuario.usuarioID as uid, persona.numdoc , persona.nombrecompleto as nombre_completo,
     usuario.usuario, usuario.IDarea, area.nombre_area as area_nombre, usuario.IDrol, rol.descripcion as rol_nombre ,usuario.estado,
 		persona.email as correo
     from usuario

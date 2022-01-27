@@ -1,115 +1,132 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Detalle Orden de compra</title>
+    <title>Привет #BlondieCode!</title>
+    <meta charset="utf-8">
+    <link rel='shortcut icon' type='image/x-icon' href='images/favicon.ico' />
+    <link rel="stylesheet" href="style.css">
 </head>
-<style type="text/css">
-    
-    </style>
-<body>
-    <div class="container-fluid">
-        <div class="row mt-5">
-            <table class="col-md-12" style="border: 1px solid #666;">
-                <thead>
-                  <tr>
-                    <td class="tg-0lax" rowspan="2" style="width: 20%;"> Imagen </td>
-                    <td class="tg-0lax" rowspan="2" style="width: 20%;"> <b> ORDEN DE COMPRA </b>  </td>
-                    <td class="tg-0lax" style="width: 60%; background-color: #D0421C; color: white;"> CÓDIGO </td>
-                  </tr>
-                  <tr>
-                    <td class="tg-0lax"> OC00001 </td>
-                  </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="row">
-            <div class="col-xs-2 ">
-                <h1>Factura</h1>
-            </div>
-            <div class="col-xs-10">
-                <img class="img img-responsive" src="https://github.com/parzibyte.png" alt="Logotipo">
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-xs-10">
-                <h1 class="h6">Luis Cabrera Benito</h1>
-                <h1 class="h6">https://parzibyte.me/blog</h1>
-            </div>
-            <div class="col-xs-2 text-center">
-                <strong>Fecha</strong>
-                <br>
-                2021-05-03 <br>
-                <strong>Factura No.</strong>
-                <br>
-                1
-            </div>
-        </div>
-        <hr>
-        <div class="row text-center" style="margin-bottom: 2rem;">
-            <div class="col-xs-6">
-                <h1 class="h2">Cliente</h1>
-                <strong>Luis Cabrera Benito</strong>
-            </div>
-            <div class="col-xs-6">
-                <h1 class="h2">Remitente</h1>
-                <strong>Luis Cabrera Benito</strong>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <table class="table table-condensed table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Descripción</th>
-                            <th>Cantidad</th>
-                            <th>Precio unitario</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{tablaProductos}}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3" class="text-right">Subtotal</td>
-                            <td>{{subtotal}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right">Descuento</td>
-                            <td>{{descuento}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right">Subtotal con descuento</td>
-                            <td>{{subtotalConDescuento}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right">Impuestos</td>
-                            <td>{{impuestos}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right">
-                                <h4>Total</h4>
-                            </td>
-                            <td>
-                                <h4>{{total}}</h4>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 text-center">
-                <p class="h5">Gracias por su compra</p>
-            </div>
-        </div>
-    </div>
+<body style="font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size:10px; padding:20px 40px; margin: 0; line-height:1.5;">
+<table cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <td colspan="10">
+            <img src="" width="200" height="50" style="margin-bottom: 34px;">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="10" style="padding-bottom:30px; font-size:24px; color:red;">
+            <b style="color: green">Рога и Копыта ® Company</b> - ул. Цветочная, д. 4б, офис 206, Винтерхолд, Скайрим
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <b>Данные о плательщике</b>
+            <br>
+            Номер абонента: 
+            <br>
+            Название Комании: 
+            <br>
+            Контактное лицо: 
+            <br>
+            E-Mail: 
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3"></td>
+        <td colspan="2"></td>
+        <td colspan="5" style="border-bottom: 1px solid #d6d6d6; padding-bottom: 6px;">
+            <b style="font-size:12px;">Номер счета: 88066</b>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6"></td>
+        <td colspan="3" style="padding: 6px 0 30px;">
+            Дата оплаты
+        </td>
+        <td colspan="1" style="padding: 6px 0 30px;">
+            
+        </td>
+    </tr>
+    <tr>
+        <td colspan="10" style="padding: 30px;"></td>
+    </tr>
+    <tr>
+        <td colspan="6" style="padding: 24px;"></td>
+    </tr>
+    <tr>
+        <td colspan="6" style="background: #d6d6d6; padding: 6px;">
+            <b>Название товара</b>
+        </td>
+        <td style="background: #d6d6d6; padding: 6px;">
+            <b>Количество</b>
+        </td>
+        <td style="background: #d6d6d6; padding: 6px;">
+            <b>Ед. измерения</b>
+        </td>
+        <td style="background: #d6d6d6; padding: 6px;">
+            <b>Цена</b>
+        </td>
+        <td style="background: #d6d6d6; padding: 6px;">
+            <b>Сумма</b>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" style="padding: 6px; border: 1px solid #d6d6d6;">
+            
+        </td>
+        <td style="padding: 6px; border-bottom: 1px solid #d6d6d6; border-top: 1px solid #d6d6d6;">
+            
+        </td>
+        <td style="padding: 6px; border: 1px solid #d6d6d6;">
+            
+        </td>
+        <td style="padding: 6px; border-bottom: 1px solid #d6d6d6; border-top: 1px solid #d6d6d6;">
+            
+        </td>
+        <td style="padding: 6px; border: 1px solid #d6d6d6;">
+            
+        </td>
+    </tr>
+    <tr>
+        <td colspan="10" style="padding: 14px;"></td>
+    </tr>
+    <tr>
+        <td colspan="5"></td>
+        <td colspan="4" style="padding: 6px;">
+            <b>Сумма к оплате с учетом НДС</b>
+        </td>
+        <td style="padding: 6px;"></td>
+    </tr>
+    <tr>
+        <td colspan="5"></td>
+        <td colspan="4" style="padding: 6px; border-top: 1px solid #d6d6d6;">
+            <b>НДС &nbsp;</b>13
+        </td>
+        <td style="padding: 6px; border-top: 1px solid #d6d6d6;">
+            
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <a href="https://www.youtube.com/channel/UCSsg9NLCse2XQCIRgfmJu3Q" style="color:#000000">Больше информации о наших услугах</a>
+        </td>
+        <td></td>
+        <td colspan="4" style="background: #C31313; padding: 6px;"><b>Всего </b></td>
+        <td style="background: #d6d6d6; padding: 6px;">
+            <b>  </b>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="10" style="padding: 80px"></td>
+    </tr>
+    <tr>
+        <td colspan="10" style="text-align:center; font-size: 8px; border-top: 1px solid #d6d6d6; padding-top: 16px;">
+            <b>Рога и Копыта ® Company</b>
+            <br>ул. Цветочная, д. 4б, офис 206, Винтерхолд, Скайрим
+            <br>880066<br>
+            <b>E-Mail:</b>aida.drogan.box@gmail.com
+        </td>
+    </tr>
+</table>
 </body>
-
 </html>
