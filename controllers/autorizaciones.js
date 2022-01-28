@@ -62,7 +62,7 @@ function dos_actualizar_estado_compra(p_estado, res, id) {
     // modificar el estado de la autorizacion
     const query = `
     UPDATE compra
-    SET estado_autorizacion = "${estado}" 
+    SET estado_autorizado = "${estado}" 
     WHERE compraID = "${p_idc}"
     `;
 
