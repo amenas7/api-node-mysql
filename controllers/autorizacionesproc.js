@@ -16,7 +16,7 @@ const getOComprasTodasProcesados = (req, res) => {
     //2022-01-25 2022-01-26
     if ( p_desde == '' && p_hasta == '' ) {
         consql.query(` select 
-        c.compraID, c.fecha_reg, c.estado_autorizacion, area.nombre_area, c.descripcion, c.reg_fisico
+        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado_autorizado, area.nombre_area, c.descripcion, c.reg_fisico
         from
         compra c
         inner join compra_detalle de
@@ -27,7 +27,7 @@ const getOComprasTodasProcesados = (req, res) => {
         on item.itemID = de.itemID
         inner join area
         on area.IDarea = c.area_solicitanteID
-        where c.estado_autorizacion = 'Procesado'
+        where c.estado_autorizado = 'Procesado'
         GROUP BY c.compraID
         ORDER BY c.compraID DESC `, (err, filas) => {
             if (err) {
@@ -56,7 +56,7 @@ const getOComprasTodasProcesados = (req, res) => {
     }
     else{
         consql.query(` select 
-        c.compraID, c.fecha_reg, c.estado_autorizacion, area.nombre_area, c.descripcion, c.reg_fisico
+        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado_autorizado, area.nombre_area, c.descripcion, c.reg_fisico
         from
         compra c
         inner join compra_detalle de
@@ -67,7 +67,7 @@ const getOComprasTodasProcesados = (req, res) => {
         on item.itemID = de.itemID
         inner join area
         on area.IDarea = c.area_solicitanteID
-        where c.estado_autorizacion = 'Procesado' AND c.fecha_reg BETWEEN "${p_desde}" AND "${p_hasta}"
+        where c.estado_autorizado = 'Procesado' AND c.fecha_reg BETWEEN "${p_desde}" AND "${p_hasta}"
         GROUP BY c.compraID
         ORDER BY c.compraID DESC `, (err, filas) => {
             if (err) {
