@@ -19,7 +19,7 @@ const getOComprasTodas = (req, res) => {
     if ( p_desde == '' && p_hasta == '' && p_estado == '') {
         consql.query(` select 
         c.codigo,
-        c.compraID, c.fecha_reg, c.estado, area.nombre_area, c.descripcion, c.reg_fisico
+        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado, area.nombre_area, c.descripcion, c.reg_fisico
         from
         compra c
         inner join compra_detalle de
