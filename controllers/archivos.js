@@ -151,7 +151,7 @@ const borrarArchivo = async (req, res) => {
 
     const id = req.params.id;
 
-    const obtenerReg = await consultar_existe_documento(req, res, id);
+    const obtenerReg = await consultar_existe_documento_archivo(req, res, id);
 
     if ( obtenerReg == '' ) {
         return res.status(500).json({
@@ -203,10 +203,26 @@ function consultar_existe_documento(req, res, id) {
     });
 }
 
+function consultar_existe_documento_archivo(req, res, id) {
+    const query = `
+    select count(archivoID) as cantidad from archivo
+    where archivoID = "${id}" `;
+
+    //return console.log(query);
+    return new Promise((resolve, reject) => {
+        consql.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows[0]['cantidad']);
+        });
+    });
+}
+
 function consultar_existe_documento_fisico(req, res, id) {
     const query = `
     select nombre_archivo_server from archivo
-    where compraID = "${id}" `;
+    where archivoID = "${id}" `;
 
     //return console.log(query);
     return new Promise((resolve, reject) => {
