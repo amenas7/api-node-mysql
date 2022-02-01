@@ -190,7 +190,7 @@ const borrarArchivo = async (req, res) => {
 function consultar_existe_documento(req, res, id) {
     const query = `
     select count(compraID) as cantidad from archivo
-    where archivoID = "${id}" `;
+    where compraID = "${id}" `;
 
     //return console.log(query);
     return new Promise((resolve, reject) => {
