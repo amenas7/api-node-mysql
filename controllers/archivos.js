@@ -57,7 +57,7 @@ function consultar_archivos(req, res, id) {
     archivoID, compraID, nombre_archivo_original, nombre_archivo_server, 
     date_format(fecha_reg, "%d-%m-%Y") fecha_reg, registradoPorID
     from archivo
-    where archivoID = "${id}"  `;
+    where compraID = "${id}"  `;
 
     //return console.log(query);
     return new Promise((resolve, reject) => {
