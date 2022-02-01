@@ -206,7 +206,7 @@ function consultar_existe_documento(req, res, id) {
 function consultar_existe_documento_fisico(req, res, id) {
     const query = `
     select nombre_archivo_server from archivo
-    where archivoID = "${id}" `;
+    where compraID = "${id}" `;
 
     //return console.log(query);
     return new Promise((resolve, reject) => {
