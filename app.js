@@ -59,7 +59,7 @@ app.use('/api/itemp', require('./routes/itemp') );
 app.use('/api/area', require('./routes/area') );
 app.use( '/api/loginG', require('./routes/loginG') );
 app.use( '/api/usuarios_filtro', require('./routes/usuarios_filtro') );
-
+app.use( '/api/descargar_archivo', require('./routes/descargar_archivo') );
 // escuchar peticiones
 app.listen(8080, () => {
     console.log('Express server puerto 8080: \x1b[32m%s\x1b[0m', 'online');
