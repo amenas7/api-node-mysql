@@ -19,7 +19,17 @@ var app = express();
 // });
 
 // configurar nuevos cors
-app.use( cors({ origin: true, credentials: true }) );
+//app.use( cors({ origin: true, credentials: true }) );
+
+app.use(cors({
+    allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'x-access-token'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: '*'
+}))
 
 // body parser
 // parse application/x-www-form-urlencoded
