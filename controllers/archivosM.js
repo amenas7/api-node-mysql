@@ -31,6 +31,56 @@ var fs = require('fs');
 
 // }
 
+const SubirMultir = async (req, res) => {
+    const id = req.body.compraID;
+    const registradoPorID = req.body.registradoPorID;
+        //return console.log(req);
+        //const file = req.file.filename;
+        //console.log(file)
+        
+        //  try {
+        //     res.send(
+        //         { data: "OK", 
+        //         //url: `http://localhost:8080/${file}` 
+        //      });
+        //  } catch (error) {
+        //      console.log(error);
+        //  }
+    try {
+
+        // solo pdf
+        //const nombre_documento = await subirArchivo( req.files, ['pdf'], 'documentos' );
+
+        let arreglo = {
+            idc: id,
+            registradoPorID,
+            nombre_documento : req.file.filename,
+            nombreOriginal: req.file.filename
+        }
+
+        const reg = await registrar_documento_a_la_compra(req, res, arreglo);
+
+        if ( reg.insertId < 1 ) {
+            return res.status(400).json({
+                ok: false,
+                mensaje: 'Error al subir documento'
+            })
+        }
+        else{
+            return res.status(200).json({
+                ok: true,
+                mensaje: 'Documento subido correctamente'
+            })
+        }
+        
+    } catch (error) {
+        res.status(400).json({
+            error
+        })
+    }
+     
+}
+
 // =======================================================
 // obtener todos los archivos segun una orden de compra
 // =======================================================
@@ -257,7 +307,6 @@ function eliminar_documento_a_la_compra(req, res, id) {
 }
 
 module.exports = {
-    cargaArchivo,
-    borrarArchivo,
-    getArchivosByID
+    SubirMultir,
+    cargaArchivo
 }

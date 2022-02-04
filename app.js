@@ -6,6 +6,8 @@ const cors = require('cors');
 
 var fileUpload = require('express-fileupload');
 
+
+
 // inicializar variables
 var app = express();
 
@@ -36,11 +38,11 @@ app.use( cors({ origin: true, credentials: true }) );
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.use(fileUpload({
-    useTempFiles : true,
-    tempFileDir : '/tmp/',
-    createParentPath: true
-}));
+// app.use(fileUpload({
+//     useTempFiles : true,
+//     tempFileDir : '/tmp/',
+//     createParentPath: true
+// }));
 
 
 // importar rutas
@@ -48,6 +50,12 @@ app.use( '/usuario', require('./routes/usuario') );
 app.use( '/login', require('./routes/login') );
 app.use( '/upload', require('./routes/upload') );
 app.use( '/', require('./routes/app') );
+
+
+
+
+
+
 
 /* ---- funcional ---- */
 app.use( '/api/login', require('./routes/auth') );
@@ -72,6 +80,8 @@ app.use( '/api/usuarios_filtro', require('./routes/usuarios_filtro') );
 app.use( '/api/descargar_archivo', require('./routes/descargar_archivo') );
 app.use('/api/formas_pago', require('./routes/formas_pago') );
 app.use('/api/tiempos_entrega', require('./routes/tiempos_entrega') );
+
+app.use('/api/archivosM', require('./routes/archivosM') );
 // escuchar peticiones
 app.listen(8080, () => {
     console.log('Express server puerto 8080: \x1b[32m%s\x1b[0m', 'online');
