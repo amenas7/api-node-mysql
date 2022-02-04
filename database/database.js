@@ -5,7 +5,7 @@ const mysqlConnection = mysql.createConnection({
     // host: 'localhost',
     // user: 'root',
     // password: '',
-    // database: 'app_ventas',
+    // database: 'app_vuela',
     // multipleStatements: true
 
     host: '161.35.100.169',
@@ -14,6 +14,13 @@ const mysqlConnection = mysql.createConnection({
     database: 'app_vuela',
     insecureAuth : true,
     multipleStatements: true
+
+    // host: '173.212.208.69',
+    // user: 'SYSDBA',
+    // password: 'masterkey',
+    // database: 'distrijavime',
+    // insecureAuth : true,
+    // multipleStatements: true
 });
 
 
