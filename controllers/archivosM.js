@@ -58,6 +58,8 @@ const SubirMultir = async (req, res) => {
             nombreOriginal: req.file.filename
         }
 
+        return console.log(arreglo);
+
         const reg = await registrar_documento_a_la_compra(req, res, arreglo);
 
         if ( reg.insertId < 1 ) {
