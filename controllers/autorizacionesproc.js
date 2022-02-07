@@ -16,7 +16,7 @@ const getOComprasTodasProcesados = (req, res) => {
     //2022-01-25 2022-01-26
     if ( p_desde == '' && p_hasta == '' ) {
         consql.query(` select 
-        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado_autorizado, area.nombre_area, c.descripcion, c.reg_fisico
+        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado_autorizado, area.nombre_area, c.descripcion, c.reg_fisico, c.codigo
         from
         compra c
         inner join compra_detalle de
@@ -56,7 +56,7 @@ const getOComprasTodasProcesados = (req, res) => {
     }
     else{
         consql.query(` select 
-        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado_autorizado, area.nombre_area, c.descripcion, c.reg_fisico
+        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado_autorizado, area.nombre_area, c.descripcion, c.reg_fisico, c.codigo
         from
         compra c
         inner join compra_detalle de
