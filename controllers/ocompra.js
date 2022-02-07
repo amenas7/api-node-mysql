@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-
 //acceder a coneccion de mysql configurada
 const consql = require('../database/database');
 const { generarJWT } = require('../helpers/jwt');
@@ -15,11 +14,14 @@ const getOComprasTodas = (req, res) => {
 
     const p_estado = req.query.estado;
 
+    // const nuevo = dateFormat(p_desde , "yyyy-mmmm-dddd");
+
+    // return console.log(p_desde +'  '+ nuevo);
     //2022-01-25 2022-01-26
     if ( p_desde == '' && p_hasta == '' && p_estado == '') {
         consql.query(` select 
         c.codigo,
-        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado, area.nombre_area, c.descripcion, c.reg_fisico
+        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado, area.nombre_area, c.descripcion, c.reg_fisico, c.codigo 
         from
         compra c
         inner join compra_detalle de
@@ -59,9 +61,26 @@ const getOComprasTodas = (req, res) => {
         });
     }
     else{
+        // const valor = ` select 
+        // c.codigo,
+        // c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado, area.nombre_area, c.descripcion, c.reg_fisico, c.codigo 
+        // from
+        // compra c
+        // inner join compra_detalle de
+        // on c.compraID = de.compraID
+        // inner join proveedor prov
+        // on prov.proveedorID = c.proveedorID
+        // inner join item
+        // on item.itemID = de.itemID
+        // inner join area
+        // on area.IDarea = c.area_solicitanteID
+        // where c.reg_fisico = '1' AND c.estado = "${p_estado}" AND c.fecha_reg BETWEEN "${p_desde}" AND "${p_hasta}"
+        // GROUP BY c.compraID
+        // ORDER BY c.compraID DESC `;
+        //return console.log(valor);
         consql.query(` select 
         c.codigo,
-        c.compraID, c.fecha_reg, c.estado, area.nombre_area, c.descripcion, c.reg_fisico
+        c.compraID, date_format(c.fecha_reg, "%d-%m-%Y") as fecha_reg, c.estado, area.nombre_area, c.descripcion, c.reg_fisico, c.codigo 
         from
         compra c
         inner join compra_detalle de
@@ -72,7 +91,7 @@ const getOComprasTodas = (req, res) => {
         on item.itemID = de.itemID
         inner join area
         on area.IDarea = c.area_solicitanteID
-        where c.reg_fisico = '1' AND c.estado_autorizado = "${p_estado}" AND c.fecha_reg BETWEEN "${p_desde}" AND "${p_hasta}"
+        where c.reg_fisico = '1' AND c.estado = "${p_estado}" AND c.fecha_reg BETWEEN "${p_desde}" AND "${p_hasta}"
         GROUP BY c.compraID
         ORDER BY c.compraID DESC `, (err, filas) => {
             if (err) {
