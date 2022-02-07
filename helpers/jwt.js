@@ -10,7 +10,7 @@ const generarJWT = (uid) => {
         };
     
         jwt.sign( payload, SEED , {
-            expiresIn: '12h'
+            expiresIn: '92h'
         }, ( err, token ) => {
             if ( err ){
                 console.log(err);
