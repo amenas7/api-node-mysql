@@ -27,7 +27,7 @@ const getOComprasTodasProcesados = (req, res) => {
         on item.itemID = de.itemID
         inner join area
         on area.IDarea = c.area_solicitanteID
-        where c.estado_autorizado = 'Procesado'
+        where c.estado_autorizado = 'Aprobado'
         GROUP BY c.compraID
         ORDER BY c.compraID DESC `, (err, filas) => {
             if (err) {

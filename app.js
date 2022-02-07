@@ -80,8 +80,10 @@ app.use( '/api/usuarios_filtro', require('./routes/usuarios_filtro') );
 app.use( '/api/descargar_archivo', require('./routes/descargar_archivo') );
 app.use('/api/formas_pago', require('./routes/formas_pago') );
 app.use('/api/tiempos_entrega', require('./routes/tiempos_entrega') );
-
 app.use('/api/archivosM', require('./routes/archivosM') );
+app.use('/api/reportepdf', require('./routes/reportepdf') );
+
+app.use('/api/estadooc', require('./routes/estadooc') );
 // escuchar peticiones
 app.listen(8080, () => {
     console.log('Express server puerto 8080: \x1b[32m%s\x1b[0m', 'online');

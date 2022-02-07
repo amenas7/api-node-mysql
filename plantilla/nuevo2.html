@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"> -->
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"> -->
+   <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
+rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+    <title>Crear PDF con Node.js</title>
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- <table class="table table-condensed table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Precio unitario</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{tablaProductos}}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-right">Subtotal</td>
+                            <td>{{subtotal}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right">Descuento</td>
+                            <td>{{descuento}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right">Subtotal con descuento</td>
+                            <td>{{subtotalConDescuento}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right">Impuestos</td>
+                            <td>{{impuestos}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right">
+                                <h4>Total</h4>
+                            </td>
+                            <td>
+                                <h4>{{total}}</h4>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table> -->
+                
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12 mt-3" id="table-user">
+                <table class="table table-bordered">
+                  <thead style="vertical-align: middle;">
+                    <tr >
+                      <th rowspan="2" style="width: 3%; font-weight: normal;">ITEM</th>
+                      <th rowspan="2" style="width: 13%; font-weight: normal;">SKU</th>
+                      <th rowspan="2" style="width: 14%; font-weight: normal;">CODIGO DE FABRICA</th>
+                      <th rowspan="2" style="width: 10%; font-weight: normal;">MARCA</th>
+                      <th rowspan="2" style="width: 30%; font-weight: normal;">DESCRIPCION</th>
+                      <th colspan="5" style="width: 30%; font-weight: normal; text-align: center;">PEDIDO</th>
+                    </tr>
+                  <tr>
+                    <th style="font-weight: normal; width: 21%;">UNIDAD</th>
+                    <th style="font-weight: normal; width: 21%;">CANTIDAD</th>
+                    <th style="font-weight: normal; width: 21%;">PRECIO UNITARIO BS</th>
+                    <th style="font-weight: normal; width: 21%;">PRECI TOTAL BS</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {{tablaProductos}}
+                  </tbody>
+                </table>
+
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                    <div class="input-group">
+                      <div class="input-group-prepend" style="text-align: center">
+                        <span class="input-group-text2 input_costo_calculo"> SUB TOTAL : {{sub_total}} </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <div class="input-group">
+                      <div class="input-group-prepend" style="text-align: center">
+                        <span class="input-group-text2 input_costo_calculo"> DESCUENTO : {{descuento}} </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <div class="input-group">
+                      <div class="input-group-prepend" style="text-align: center">
+                        <span class="input-group-text2 input_costo_calculo"> TOTAL BS : {{total_compra}}  </span>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <table class="col-md-12 table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%; font-weight: normal;"> Solicitante </th>
+                            <th style="width: 15%; font-weight: normal;"> Administración </th>
+                            <th style="width: 20%; font-weight: normal;"> Conformidad de almacen </th>
+                            <th style="width: 50%; font-weight: normal;"> IMPORTANTE </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="cell celda_blanca"> Leonardo Rafael Quispe Pacheco </td>
+                            <td class="cell celda_blanca"> Leonardo Rafael Quispe Pacheco </td>
+                            <td class="cell celda_blanca">  </td>
+                            <td class="cell celda_blanca"> 1. But I must explain to you how all... </td>
+
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <p class="h5">Gracias por su compra</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

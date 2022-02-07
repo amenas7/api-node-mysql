@@ -4,13 +4,13 @@ const { generarJWT } = require('../helpers/jwt');
 const path = require('path');
 const { subirArchivo } = require('../helpers/subir-archivo');
 const fs = require('fs');
-const pdf = require("html-pdf");
+
+var html_to_pdf = require('html-pdf-node');
+
+
 
 // Constantes propias del programa
-const ubicacionPlantilla = require.resolve("../plantilla/nuevo.html");
-let contenidoHtml = fs.readFileSync(ubicacionPlantilla, 'utf8');
 
-const formateador = new Intl.NumberFormat("en", { style: "currency", "currency": "MXN" });
 // =======================================================
 // Generar reporte pdf a una orden de compra
 // =======================================================
@@ -27,61 +27,18 @@ const getReporteByID = async (req, res) => {
         })
     }
 
-    const config = {
-        format: 'A4',
-        //border: '0.2cm'
-    }
-
-
-    const reg_cabecera = await consultar_cabecera(req, res, id);
-
-    //return console.log(reg_cabecera[0]['total_compra']);
-
-    const reg_detalle = await consultar_detalle_productos(req, res, id);
-
-    let tabla = "";
-    //let subtotal = 0;
-    let contador = 0;
-    for (const producto of reg_detalle) {
-        // Aumentar el total
-        //const totalProducto = producto.cantidad * producto.precio;
-        //subtotal += totalProducto;
-        // Y concatenar los productos
-        contador ++;
-        tabla += `<tr>
-            <th>${ contador }</th>
-            <td>${ producto.sku }</td>
-            <td>${ producto.codigo_de_fabrica }</td>
-            <td>${ producto.marca }</td>
-            <td>${ producto.nombre_item }</td>
-            <td> unidad </td>
-            <td>${ producto.cantidad }</td>
-            <td>${ producto.precio_bs_referencial }</td>
-            <td>${ producto.monto }</td>
-        </tr>`;
-    }
-    // const descuento = 0;
-    // const subtotalConDescuento = subtotal - descuento;
-    // const impuestos = subtotalConDescuento * 0.16
-    // const total = subtotalConDescuento + impuestos;
-    // Remplazar el valor {{tablaProductos}} por el verdadero valor
-    contenidoHtml = contenidoHtml.replace( "{{tablaProductos}}", tabla );
-
-    // Y también los otros valores
-    contenidoHtml = contenidoHtml.replace( "{{sub_total}}", reg_cabecera[0]['sub_total'] );
-    contenidoHtml = contenidoHtml.replace( "{{descuento}}", reg_cabecera[0]['descuento'] );
-    contenidoHtml = contenidoHtml.replace( "{{total_compra}}", reg_cabecera[0]['total_compra'] );
-    // contenidoHtml = contenidoHtml.replace("{{descuento}}", formateador.format(descuento));
-    // contenidoHtml = contenidoHtml.replace("{{subtotalConDescuento}}", formateador.format(subtotalConDescuento));
-    // contenidoHtml = contenidoHtml.replace("{{impuestos}}", formateador.format(impuestos));
-    // contenidoHtml = contenidoHtml.replace("{{total}}", formateador.format(total));
-    pdf.create(contenidoHtml, config).toStream((error, stream) => {
-        if (error) {
-            res.end("Error creando PDF: " + error)
-        } else {
-            res.setHeader("Content-Type", "application/pdf");
-            stream.pipe(res);
-        }
+    const options = { format: 'A4', path: './pdf/convert.pdf' }; 
+    let file = { content: "<h1>HTML to PDF convert</h1>" };
+    html_to_pdf.generatePdf(file, options)
+    .then((re) => {
+        res.status(200).send({
+            isSuccess: true,
+        })
+    }).catch((err) => {
+        res.status(200).send({
+            isSuccess: false,
+            error:err
+        })
     });
 
 }

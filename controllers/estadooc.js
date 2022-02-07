@@ -6,9 +6,9 @@ const { generarJWT } = require('../helpers/jwt');
 
 
 // ==========================================
-// modificar estado de autorizacion
+// modificar estado de orden de compra
 // ==========================================
-const actualizarAutorizacion = async(req, res = response) => {
+const actualizarOC = async(req, res = response) => {
     const id = req.params.id;
 
     const p_estado = req.body.estado;
@@ -22,13 +22,20 @@ const actualizarAutorizacion = async(req, res = response) => {
         })
     }
 
-    if ( p_estado == 'Aprobado') {
-        const oc_estado = 'Autorizado';
-        const p_tres_actualizar_estado_au = await tres_actualizar_estado_oc(oc_estado, res, id);
-    }
-    else if ( p_estado == 'Rechazado') {
-        const oc_estado2 = 'Rechazado';
-        const p_tres_actualizar_estado_au = await tres_actualizar_estado_oc(oc_estado2, res, id);
+    if ( p_estado == 'Enviado') {
+        const au_estado = 'Pendiente';
+        const p_tres_actualizar_estado_au = await tres_actualizar_estado_au(au_estado, res, id);
+        // if ( p_tres_actualizar_estado_au.affectedRows < 1 ) {
+        //     return res.status(400).json({
+        //         ok: false,
+        //         mensaje: 'No se modificó el estado de la autorizacion'
+        //     });
+        // }
+    
+        // return res.status(200).json({
+        //     ok: true,
+        //     mensaje: "Autorizacion modificada"
+        // });
     }
 
     const p_dos_actualizar_estado_compra = await dos_actualizar_estado_compra(p_estado, res, id);
@@ -42,7 +49,7 @@ const actualizarAutorizacion = async(req, res = response) => {
 
     return res.status(200).json({
         ok: true,
-        mensaje: "Autorizacion modificada"
+        mensaje: "Orden de compra modificada"
     });
 
  };
@@ -68,28 +75,6 @@ function dos_actualizar_estado_compra(p_estado, res, id) {
     const p_idc = id;
     const estado = p_estado;
 
-    // modificar el estado de la autorizacion
-    const query = `
-    UPDATE compra
-    SET estado_autorizado = "${estado}" 
-    WHERE compraID = "${p_idc}"
-    `;
-
-    return new Promise((resolve, reject) => {
-        consql.query(query, (err, rows, fields) => {
-            if (err) {
-                console.log("Error: " + err.message);
-                throw err;
-            }
-            resolve(rows);
-        });
-    });
-}
-
-function tres_actualizar_estado_oc(oc_estado, res, id) {
-    const p_idc = id;
-    const estado = oc_estado;
-
     // modificar el estado de la orden de compra
     const query = `
     UPDATE compra
@@ -108,6 +93,29 @@ function tres_actualizar_estado_oc(oc_estado, res, id) {
     });
 }
 
+function tres_actualizar_estado_au(au_estado, res, id) {
+    const p_idc = id;
+    const estado = au_estado;
+
+    // modificar el estado de la autorizacion
+    const query = `
+    UPDATE compra
+    SET estado_autorizado = "${estado}" 
+    WHERE compraID = "${p_idc}"
+    `;
+
+    return new Promise((resolve, reject) => {
+        consql.query(query, (err, rows, fields) => {
+            if (err) {
+                console.log("Error: " + err.message);
+                throw err;
+            }
+            resolve(rows);
+        });
+    });
+}
+
+
 module.exports = {
-    actualizarAutorizacion
+    actualizarOC
 }
