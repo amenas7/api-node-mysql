@@ -10,8 +10,7 @@ const { generarJWT } = require('../helpers/jwt');
 // ==========================================
 const getFormasPago = (req, res) => {
 
-    try {
-        consql.query(` select 
+    consql.query(` select 
         forma_pagoID, descripcion
         from forma_pago`, (err, filas) => {
             if (err) {
@@ -29,14 +28,6 @@ const getFormasPago = (req, res) => {
                 })
             }
         });
-    } catch (e) {
-        console.error('err thrown: ' + e);
-    }
-    finally{
-        consql.end(function(){
-            // La conexión se ha cerrado
-        });
-    }
     
 }
 
