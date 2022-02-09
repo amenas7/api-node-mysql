@@ -27,7 +27,7 @@ const getOComprasTodasProcesados = (req, res) => {
         on item.itemID = de.itemID
         inner join area
         on area.IDarea = c.area_solicitanteID
-        where c.estado_autorizado = 'Aprobado'
+        where c.estado_autorizado = 'Aprobado' || c.estado_autorizado = 'Rechazado'
         GROUP BY c.compraID
         ORDER BY c.compraID DESC `, (err, filas) => {
             if (err) {
@@ -67,7 +67,7 @@ const getOComprasTodasProcesados = (req, res) => {
         on item.itemID = de.itemID
         inner join area
         on area.IDarea = c.area_solicitanteID
-        where c.estado_autorizado = 'Procesado' AND c.fecha_reg BETWEEN "${p_desde}" AND "${p_hasta}"
+        where c.estado_autorizado = 'Procesado' || c.estado_autorizado = 'Rechazado' AND c.fecha_reg BETWEEN "${p_desde}" AND "${p_hasta}"
         GROUP BY c.compraID
         ORDER BY c.compraID DESC `, (err, filas) => {
             if (err) {

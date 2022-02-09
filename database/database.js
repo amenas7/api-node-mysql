@@ -25,7 +25,9 @@ const mysqlConnection = mysql.createConnection({
 
 
 mysqlConnection.connect(function(err) {
-    if (err) throw err;
+    if (err) {
+        throw err;
+    };
 
     console.log('Estado de BD : \x1b[32m%s\x1b[0m', 'online');
 

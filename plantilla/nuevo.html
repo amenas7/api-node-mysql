@@ -111,7 +111,7 @@
           font-size: 13px;
         }
         .div-light{
-          border-color: #707070;
+          border-color: red;
           border-width: 0.5px;
           border-style: solid;
           background-color: white !important;
@@ -124,11 +124,35 @@
           text-align: center;
           font-size: 13px;
         }
+
+        .label-cabecera{
+          font-size: 15px;
+          color: black;
+          font-weight: bold;
+          font-weight: bold;
+        }
+
+        .label-cabecera-texto{
+          font-family: 'Poppins';
+          font-size: 15px;
+          color: black;
+        }
+
+        .cell-gris{
+          font-family: 'Poppins';
+          font-weight: 600;
+          font-size: 16px;
+          margin: auto;
+          vertical-align: middle;
+          text-align: center;
+          background-color: #707070 !important;
+          color: white;
+        }
     </style>
 <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script><script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
 
 <body>
-  <!--div_table-->
+  <!--div_cabecera-->
   <div class="col-12 p-5 pb-3">
     <table class="table table-bordered">
       <tr>
@@ -137,131 +161,36 @@
         <td colspan="1" class="cell-active">CÓDIGO</td>
       </tr>
       <tr>
-        <td class="cell-code">OC100314</td>
+        <td class="cell-code"> {{codigo}} </td>
       </tr>
     </table>
   </div>
 
-  <!--div_datos-->
-  <div class="col-12 p-5 pt-0">
-    <div class="row">
+  <table cellspacing="0" cellpadding="0" width="100%" style="margin-left: 50px;">
+    <tr>
+      <td id="td" width="60"> <span class="label-cabecera"> Proveedor: </span> <span class="label-cabecera-texto"> {{proveedor}} </span> </td>
+      <td id="td" width="60"> <span class="label-cabecera"> Área solicitante: </span> <span class="label-cabecera-texto"> {{nombre_area}} </span> </td>
+   </tr>
+   <tr>
+      <td id="td" width="60" style="margin-top: 5px;"> <span class="label-cabecera"> Facturar a: </span> <span> Cliente </span> </td>
+      <td id="td" width="60" style="margin-top: 5px;"> <span class="label-cabecera"> Fecha: </span> <span class="label-cabecera-texto"> {{fecha_registro_compra}} </span> </td>
+   </tr>
+   <tr>
+    <td id="td" width="60" style="margin-top: 5px;"> <span class="label-cabecera"> NIT: </span> <span class="label-cabecera-texto"> {{nit}} </span> </td>
+    <td id="td" width="60" style="margin-top: 5px;"> <span class="label-cabecera"> Forma de pago: </span> <span class="label-cabecera-texto"> {{forma_pago}} </span> </td>
+   </tr>
+   <tr>
+    <td id="td" width="60" style="margin-top: 5px;"> <span class="label-cabecera"> Descripción: </span> <span class="label-cabecera-texto"> {{descripcion}} </span> </td>
+    <td id="td" width="60" style="margin-top: 5px;"> <span class="label-cabecera"> Moneda: </span> <span class="label-cabecera-texto"> {{moneda}} </span> </td>
+   </tr>
+   <tr>
+    <td id="td" width="60" style="margin-top: 5px;"> <span class="label-cabecera"> Ticket: </span> <span class="label-cabecera-texto"> {{ticket}} </span> </td>
+    <td id="td" width="60" style="margin-top: 5px;"> <span class="label-cabecera"> Tiempo de entrega: </span> <span class="label-cabecera-texto"> {{tiempo_entrega}} </span> </td>
+   </tr>
 
-      <div class="col-6">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">Proveedor</p>
-          </div>
-          <div class="col-8">
-            <p class="input">Nombre completo del proveedor</p>
-          </div>
-        </div>
-      </div>
+  </table>
 
-      <div class="col-6">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">Área solicitante</p>
-          </div>
-          <div class="col-8">
-            <p class="input">Área solicitante ingresada</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 mt-2">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">Facturar a</p>
-          </div>
-          <div class="col-8">
-            <p class="input">Persona a la cual va facturar</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 mt-2">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">Fecha</p>
-          </div>
-          <div class="col-8">
-            <p class="input">12/12/2022</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 mt-2">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">NIT</p>
-          </div>
-          <div class="col-8">
-            <p class="input">000000000000</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 mt-2">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">Forma de pago</p>
-          </div>
-          <div class="col-8">
-            <p class="input">Tarjeta de crédito</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 mt-2">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">Descripción</p>
-          </div>
-          <div class="col-8">
-            <p class="input">Descripción de la orden</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 mt-2">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">Moneda</p>
-          </div>
-          <div class="col-8">
-            <p class="input">Dolares americanos</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 mt-2">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">Ticket</p>
-          </div>
-          <div class="col-8">
-            <p class="input">000000000</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 mt-2">
-        <div class="row">
-          <div class="col-4">
-            <p class="label-input">Tiempo de entrega</p>
-          </div>
-          <div class="col-8">
-            <p class="input">Tiempo en el que se hizo la entrega</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!--div_items-->
-
-  <div class="col-12 p-5 pt-0 pb-3">
+  <div class="col-12 p-5 pt-0 pb-3" style="margin-top: 10px;">
     <table class="table table-bordered light">
       <thead>
         <tr>
@@ -280,71 +209,52 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="cell-id">1</td>
-          <td>422 8484</td>
-          <td>121EEC1</td>
-          <td>MARCA 1</td>
-          <td>BUT I MUST HAVE EXPLAIN DESCRIPTION TO THIS ORDER</td>
-          <td>1</td>
-          <td>1</td>
-          <td>20.4 BS</td>
-          <td>20.4 BS</td>
-        </tr>
-        <tr>
-          <td class="cell-id">1</td>
-          <td>422 8484</td>
-          <td>121EEC1</td>
-          <td>MARCA 1</td>
-          <td>BUT I MUST HAVE EXPLAIN DESCRIPTION TO THIS ORDER</td>
-          <td>1</td>
-          <td>1</td>
-          <td>20.4 BS</td>
-          <td>20.4 BS</td>
-        </tr>
-        <tr>
-          <td class="cell-id">1</td>
-          <td>422 8484</td>
-          <td>121EEC1</td>
-          <td>MARCA 1</td>
-          <td>BUT I MUST HAVE EXPLAIN DESCRIPTION TO THIS ORDER</td>
-          <td>1</td>
-          <td>1</td>
-          <td>20.4 BS</td>
-          <td>20.4 BS</td>
-        </tr>
+        {{tablaProductos}}
       </tbody>
     </table>
   </div>
 
   <!--div_precios-->
-  <div class="col-6 p-5 pt-3">
-    <div class="row">
-      <div class="col-4 div-dark">
-        SUB TOTAL
-      </div>
-      <div class="col-8 div-light">
-        123.32 BS
-      </div>
-    </div>
+  <!-- <table cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+      <td colspan="4">
+          <a href="https://www.youtube.com/channel/UCSsg9NLCse2XQCIRgfmJu3Q" style="color:#000000">Больше информации о наших услугах</a>
+      </td>
+      <td></td>
+      <td colspan="4" style="background: #C31313; padding: 6px;"><b> SUB TOTAL: </b></td>
+      <td style="background: #d6d6d6; padding: 6px;">
+          <b> 240.0 </b>
+      </td>
+    </tr>
+  </table> -->
+  <div class="col-12 p-5 pb-1" style="margin-top: -40px;">
+    <table class="table table-bordered">
+      <tr>
+        <td rowspan="2" class="cell-gris"> SUB TOTAL:</td>
+        <td colspan="2" class="cell"> {{sub_total}} </td>
+        <td colspan="2" style="color: white; border-color: white"> dsdsdsdsdsdsdsdsdsds</td>
+      </tr>
+    </table>
+  </div>
 
-    <div class="row mt-4">
-      <div class="col-4 div-dark">
-        DESCUENTO
-      </div>
-      <div class="col-8 div-light">
-        0.00 BS
-      </div>
-    </div>
+  <div class="col-12 p-5 pb-1" style="margin-top: -50px !important;">
+    <table class="table table-bordered">
+      <tr>
+        <td rowspan="2" class="cell-gris"> DESCUENTO:</td>
+        <td colspan="2" class="cell"> {{descuento}} </td>
+        <td colspan="2" style="color: white; border-color: white"> dsdsdsdsdsdsdsdsdsds</td>
+      </tr>
+    </table>
+  </div>
 
-    <div class="row mt-4">
-      <div class="col-4 div-dark">
-        TOTAL
-      </div>
-      <div class="col-8 div-light">
-        123.32 BS
-      </div>
-    </div>
+  <div class="col-12 p-5 pb-1" style="margin-top: -50px !important;">
+    <table class="table table-bordered">
+      <tr>
+        <td rowspan="2" class="cell-gris"> TOTAL:</td>
+        <td colspan="2" class="cell"> {{total_compra}} </td>
+        <td colspan="2" style="color: white; border-color: white"> dsdsdsdsdsdsdsdsdsds</td>
+      </tr>
+    </table>
   </div>
 
   <!--div_solicitante-->
